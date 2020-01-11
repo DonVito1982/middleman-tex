@@ -5,10 +5,10 @@ Gem::Specification.new do |s|
   s.name        = "create-tex"
   s.version     = "0.0.1"
   s.platform    = Gem::Platform::RUBY
-  # s.authors     = ["Your Name"]
+  s.authors     = ["Víctor Zambrano"]
   # s.email       = ["email@example.com"]
   # s.homepage    = "http://example.com"
-  # s.summary     = %q{A short summary of your extension}
+  s.summary     = "Creation of TeX files along with html"
   # s.description = %q{A longer description of your extension}
 
   s.files         = `git ls-files`.split("\n")
