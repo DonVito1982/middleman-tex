@@ -1,5 +1,6 @@
 # Require core library
 require 'middleman-core'
+require 'fileutils'
 
 # Extension namespace
 module Middleman
@@ -20,20 +21,31 @@ module Middleman
     def after_configuration
       # Do something
       # raise "after config"
-      puts "after configuration. Recursos #{app.sitemap.resources.to_a.length}"
+      # puts "after configuration. Recursos #{app.sitemap.resources.to_a.length}"
+      app.sitemap.resources
+        .map { |recurso| recurso.file_descriptor.full_path }
+        .select {|path| path.to_s =~ /html\.md\.erb/ }
+        .each do |path|
+        target = path.to_s.gsub("html.md.erb", "tex.md_tex.erb")
+        temporary_source = Pathname.new(target)
+        FileUtils.copy_file(path, temporary_source)
+      end
     end
     
     def before_build
       # raise "before build"
-      puts "before build. Recursos: #{app.sitemap.resources.to_a.length}"
+      # puts "before build. Recursos: #{app.sitemap.resources.to_a.length}"
     end
     
     def after_build
-      puts "after build. Recursos: #{app.sitemap.resources.to_a.length}"
+      app.sitemap.resources
+        .map { |recurso| recurso.file_descriptor.full_path }
+        .select { |path| path.to_s =~ /tex\.md_tex\.erb/ }
+        .each { |path| path.delete }
     end
     
     def ready
-      puts "ready. Recursos: #{app.sitemap.resources.to_a.length}"
+      # puts "ready. Recursos: #{app.sitemap.resources.to_a.length}"
       #app.sitemap.resources.each do |resource|
       #  puts resource.path
       #  puts resource.file_descriptor.full_path
