@@ -12,7 +12,8 @@ module Middleman
       super
       
       # Require libraries only when activated
-      # require 'necessary/library'
+      require 'create-tex/kramdown_tex'
+      ::Tilt.prefer(::Middleman::Renderers::KramdownTexTemplate, 'md_tex')
 
       # set up your extension
       # puts options.my_option
