@@ -10,6 +10,7 @@ module Middleman
     def initialize(app, options_hash={}, &block)
       # Call super to build options from the options_hash
       super
+      app.config.extensions_with_layout << '.tex' unless app.config.extensions_with_layout.include?('.tex')
       
       # Require libraries only when activated
       require 'create-tex/kramdown_tex'
