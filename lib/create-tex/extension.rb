@@ -23,29 +23,36 @@ module Middleman
     def after_configuration
       # Do something
       # raise "after config"
-      # puts "after configuration. Recursos #{app.sitemap.resources.to_a.length}"
-      app.sitemap.resources
-        .map { |recurso| recurso.file_descriptor.full_path }
-        .select {|path| path.to_s =~ /html\.md\.erb/ }
-        .each do |path|
-        target = path.to_s.gsub("html.md.erb", "tex.md_tex.erb")
-        temporary_source = Pathname.new(target)
-        FileUtils.copy_file(path, temporary_source)
-      end
+      puts "After configuration"
+      #app.sitemap.resources
+      #  .map { |recurso| recurso.file_descriptor.full_path }
+      #  .select {|path| path.to_s =~ /html\.md\.erb/ }
+      #  .each do |path|
+      #  target = path.to_s.gsub("html.md.erb", "tex.md_tex.erb")
+      #  temporary_source = Pathname.new(target)
+      #  FileUtils.copy_file(path, temporary_source)
+      #end
     end
     
     def before_build
       # raise "before build"
-      # puts "before build. Recursos: #{app.sitemap.resources.to_a.length}"
-    end
-    
-    def after_build
+      puts "before build. Recursos: #{app.sitemap.resources.to_a.length}"
+      # app.sitemap.resources.each { |recurso| puts recurso.destination_path }
       app.sitemap.resources
-        .map { |recurso| recurso.file_descriptor.full_path }
-        .select { |path| path.to_s =~ /tex\.md_tex\.erb/ }
-        .each { |path| path.delete }
+        .select { |recurso| recurso.metadata[:page].key?(:tex_layout) }
+        .each do |recurso|
+        recurso.add_metadata options: { layout: recurso.metadata[:page][:tex_layout] }
+        puts "Destino: #{recurso.destination_path}. MD: #{recurso.metadata[:options]}"
+      end
     end
     
+    #def after_build
+    #  app.sitemap.resources
+    #    .map { |recurso| recurso.file_descriptor.full_path }
+    #    .select { |path| path.to_s =~ /tex\.md_tex\.erb/ }
+    #    .each { |path| path.delete }
+    #end
+ 
     def ready
       # puts "ready. Recursos: #{app.sitemap.resources.to_a.length}"
       #app.sitemap.resources.each do |resource|
