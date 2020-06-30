@@ -10,4 +10,38 @@
 # See https://docs.rubocop.org/rubocop/configuration
 
 Style/FrozenStringLiteralComment:
-        Enabled: false
+  Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/UnusedMethodArgument:
+  Exclude:
+  - lib/create-tex/kramdown_tex.rb
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+  - lib/create-tex/kramdown_tex.rb
+
+Naming/FileName:
+  Exclude:
+  - lib/create-tex.rb
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Lint/DeprecatedOpenSSLConstant:
+# Lint/MixedRegexpCaptureTypes
+# Lint/RaiseException
+# Lint/StructNewOverride
+# Style/ExponentialNotation
+# Style/HashEachMethods
+# Style/HashTransformKeys
+# Style/HashTransformValues
+# Style/RedundantFetchBlock
+# Style/RedundantRegexpCharacterClass
+# Style/RedundantRegexpEscape
+# Style/SlicingWithRange
