@@ -1,0 +1,53 @@
+# The behavior of RuboCop can be controlled via the .rubocop.yml
+# configuration file. It makes it possible to enable/disable
+# certain cops (checks) and to alter their behavior if they accept
+# any parameters. The file can be placed either in your home
+# directory or in some project directory.
+#
+# RuboCop will start looking for the configuration file in the directory
+# where the inspected file is and continue its way up to the root directory.
+#
+# See https://docs.rubocop.org/rubocop/configuration
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/LineLength:
+  Max: 80
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/UnusedMethodArgument:
+  Exclude:
+  - lib/create-tex/kramdown_tex.rb
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+  - lib/create-tex/kramdown_tex.rb
+
+Naming/FileName:
+  Exclude:
+  - lib/create-tex.rb
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Lint/DeprecatedOpenSSLConstant:
+# Lint/MixedRegexpCaptureTypes
+# Lint/RaiseException
+# Lint/StructNewOverride
+# Style/ExponentialNotation
+# Style/HashEachMethods
+# Style/HashTransformKeys
+# Style/HashTransformValues
+# Style/RedundantFetchBlock
+# Style/RedundantRegexpCharacterClass
+# Style/RedundantRegexpEscape
+# Style/SlicingWithRange
