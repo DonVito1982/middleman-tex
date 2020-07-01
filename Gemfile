@@ -16,3 +16,6 @@ group :test do
   gem "cucumber"
   gem "rspec"
 end
+
+# Code Quality
+gem "rubocop", "~> 0.86.0", require: false
