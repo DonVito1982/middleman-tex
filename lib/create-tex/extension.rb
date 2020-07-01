@@ -11,7 +11,9 @@ module Middleman
     def initialize(app, options_hash = {}, &block)
       # Call super to build options from the options_hash
       super
-      app.config.extensions_with_layout << ".tex" unless app.config.extensions_with_layout.include?(".tex")
+      unless app.config.extensions_with_layout.include?(".tex")
+        app.config.extensions_with_layout << ".tex"
+      end
 
       # Require libraries only when activated
       require "create-tex/kramdown_tex"
@@ -26,19 +28,24 @@ module Middleman
     end
 
     def after_configuration
-      source_files.select { |file| file.relative_path.to_s =~ /html\.md\.erb/ }.each do |file|
-        target = file.full_path.to_s.gsub("html.md.erb", "tex.md_tex.erb")
-        temporary_source = Pathname.new(target)
-        FileUtils.copy_file(file.full_path, temporary_source) unless temporary_source.exist?
-      end
+      source_files
+        .select { |file| file.relative_path.to_s =~ /html\.md\.erb/ }
+        .each do |file|
+          target = file.full_path.to_s.gsub("html.md.erb", "tex.md_tex.erb")
+          temporary_source = Pathname.new(target)
+          unless temporary_source.exist?
+            FileUtils.copy_file(file.full_path, temporary_source)
+          end
+        end
     end
 
     def before_build
       app.sitemap.resources
-         .select { |recurso| recurso.file_descriptor.full_path.to_s =~ /md_tex/ }
+         .select { |recurso| resource_path(recurso) =~ /md_tex/ }
          .each do |recurso|
-        recurso.add_metadata options: { layout: recurso.metadata[:page][:tex_layout] }
-      end
+           resource_tex_layout = recurso.metadata[:page][:tex_layout]
+           recurso.add_metadata options: { layout: resource_tex_layout }
+         end
     end
 
     def after_build
@@ -48,18 +55,20 @@ module Middleman
          .each(&:delete)
     end
 
-    def tex_resource_without_layout?(resource)
-      resource.file_descriptor.full_path.to_s =~ /tex\.md_tex\.erb/ && resource.metadata[:page][:tex_layout].nil?
-    end
-
     # A Sitemap Manipulator
     def manipulate_resource_list(resources)
       resources.reject { |resource| tex_resource_without_layout?(resource) }
     end
 
-    # helpers do
-    #   def a_helper
-    #   end
-    # end
+    private
+
+    def resource_path(resource)
+      resource.file_descriptor.full_path.to_s
+    end
+
+    def tex_resource_without_layout?(resource)
+      resource_path(resource) =~ /tex\.md_tex\.erb/ &&
+        resource.metadata[:page][:tex_layout].nil?
+    end
   end
 end

@@ -12,8 +12,14 @@
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
+
+Layout/LineLength:
+  Max: 80
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
