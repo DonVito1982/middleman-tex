@@ -12,3 +12,7 @@ require "rake/clean"
 task test: ["cucumber"]
 
 task default: :test
+
+require "rubocop/rake_task"
+desc "Run RuboCop to check code consistency"
+RuboCop::RakeTask.new(:rubocop)
